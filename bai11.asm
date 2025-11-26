@@ -1,4 +1,4 @@
-                        .model small
+.model small
 .stack 100h
 .data
     str db 5 dup('?')
@@ -29,13 +29,13 @@
             
         mov bl, 16
         mov cl, 0
-        nhiphan:     
+        thaplucphan:     
             inc cl
             mov ah, 0
             div bl
             push ax
             cmp al, 0
-            jne nhiphan
+            jne thaplucphan
             
         
         
@@ -46,16 +46,25 @@
         
         
         print_num:
-            pop dx
-            mov dl, dh
-            add dl, '0'
+            pop ax            
+            mov dl, ah      
+            cmp dl, 10
+            jb print_digit
+        
+            sub dl, 10        
+            add dl, 'A'       
+            jmp do_print
+        
+        print_digit:
+            add dl, '0'       
+        
+        do_print:
             mov ah, 2
             int 21h
+        
             dec cl
             jnz print_num
-        
-        
-        
+
             
         mov ah, 4ch
         int 21h
